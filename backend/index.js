@@ -4,9 +4,11 @@
  * Sets up the Express server with:
  * - JSON body parsing
  * - CORS for frontend communication
+ * - Rate limiting for DDoS protection
  * - Route mounting for all API endpoints
  * - Global error handler for consistent error responses
  * - Database initialization on startup
+ * - PKI service initialization (CA + relay nodes)
  * 
  * API Routes:
  *   POST /api/register           - User registration
@@ -37,6 +39,10 @@ app.use(express.json());
 
 // Enable CORS for frontend communication (React dev server on different port)
 app.use(cors());
+
+// Apply general rate limiting to all API endpoints
+const { generalLimiter } = require('./middleware/rateLimiter');
+app.use('/api', generalLimiter);
 
 // ─── Route Registration ─────────────────────────────────────────────────────
 
@@ -85,19 +91,19 @@ const PORT = process.env.PORT || 3001;
 /**
  * Initialize the application:
  * 1. Initialize the SQLite database (creates tables if needed)
- * 2. Start the Express server
- * 
- * The PKI service initialization (CA setup, relay node creation) will be
- * added in Task 4.1 when the PKI module is implemented.
+ * 2. Initialize PKI service (CA key pair, relay nodes)
+ * 3. Start the Express server
  */
-async function start() {
+function start() {
   try {
     // Initialize database (creates tables and indexes)
     require('./models/db');
     console.log('[SERVER] Database initialized');
 
-    // PKI service initialization will be added in Task 4.1
-    // await pkiService.initialize();
+    // Initialize PKI service (CA setup, relay node creation)
+    const pkiService = require('./services/pkiService');
+    pkiService.initialize();
+    console.log('[SERVER] PKI service initialized');
 
     // Start listening for incoming requests
     app.listen(PORT, () => {
