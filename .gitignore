@@ -1,0 +1,58 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Testing / Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment variables
+.env
+.env.local
+
+# Node.js
+node_modules/
+
+# Backend data
+backend/data/
+*.sqlite
+*.db
+*.db-shm
+*.db-wal
+
+# Frontend build
+frontend/dist/
+
+# SecureVault specific
+~/.securevault/
+keys/
+*.sig
+*.enc
+
+# OS files
+.DS_Store
+Thumbs.db
