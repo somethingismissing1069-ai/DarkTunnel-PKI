@@ -11,6 +11,10 @@
 
 const router = require('express').Router();
 const pkiController = require('../controllers/pkiController');
+const authMiddleware = require('../middleware/authMiddleware');
+
+// All PKI routes require authentication
+router.use(authMiddleware);
 
 // Generate a new certificate for the authenticated user
 router.post('/generate-cert', pkiController.generateCert);
@@ -18,7 +22,7 @@ router.post('/generate-cert', pkiController.generateCert);
 // Verify a certificate by its serial number
 router.get('/verify/:id', pkiController.verifyCert);
 
-// Revoke a certificate (admin role required)
+// Revoke a certificate (admin role required - checked in controller)
 router.post('/revoke', pkiController.revokeCert);
 
 module.exports = router;
