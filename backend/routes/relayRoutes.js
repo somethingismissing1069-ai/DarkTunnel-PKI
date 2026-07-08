@@ -11,6 +11,7 @@ const router = require('express').Router();
 const relayController = require('../controllers/relayController');
 
 // Process an onion packet through the relay network
+// Note: No auth middleware - relay processes packets from any source
 router.post('/process', relayController.processPacket);
 
 module.exports = router;

@@ -9,6 +9,10 @@
 
 const router = require('express').Router();
 const adminController = require('../controllers/adminController');
+const authMiddleware = require('../middleware/authMiddleware');
+
+// All admin routes require authentication (role checked in controller)
+router.use(authMiddleware);
 
 // Retrieve audit logs with optional filtering
 router.get('/logs', adminController.getLogs);

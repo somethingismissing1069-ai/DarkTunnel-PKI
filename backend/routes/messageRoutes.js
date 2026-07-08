@@ -11,9 +11,14 @@
 
 const router = require('express').Router();
 const messageController = require('../controllers/messageController');
+const authMiddleware = require('../middleware/authMiddleware');
+const { validateSendMessage } = require('../middleware/validator');
+
+// All message routes require authentication
+router.use(authMiddleware);
 
 // Send a new encrypted message through the relay network
-router.post('/send', messageController.sendMessage);
+router.post('/send', validateSendMessage, messageController.sendMessage);
 
 // Get the delivery status of a specific message by ID
 router.get('/:id', messageController.getMessageStatus);
